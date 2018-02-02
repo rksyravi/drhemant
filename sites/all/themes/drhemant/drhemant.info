@@ -1,0 +1,49 @@
+name = DrHemant
+description = Uses the jsDelivr CDN for all CSS and JavaScript. No source files or compiling is necessary and is recommended for simple sites or beginners.
+core = 7.x
+base theme = bootstrap
+
+
+;;;;;;;;;;;;;;;;;;;;;
+;; Regions
+;;;;;;;;;;;;;;;;;;;;;
+
+regions[top_info]       = 'Top Info'
+regions[staff]          = 'Staff'
+regions[navigation]     = 'Navigation'
+regions[header]         = 'Top Bar'
+regions[highlighted]    = 'Highlighted'
+regions[help]           = 'Help'
+regions[content]        = 'Content'
+regions[sidebar_first]  = 'Primary'
+regions[sidebar_second] = 'Secondary'
+regions[footer]         = 'Footer'
+regions[page_top]       = 'Page top'
+regions[page_bottom]    = 'Page bottom'
+
+
+;;;;;;;;;;;;;;;;;;;;;
+;; Stylesheets
+;;;;;;;;;;;;;;;;;;;;;
+
+stylesheets[all][] = css/style.css
+stylesheets[all][] = css/zoomslider.css
+stylesheets[all][] = css/owl.carousel.css
+stylesheets[all][] = css/font-awesome.css
+stylesheets[all][] = css/ptsansans.css
+stylesheets[all][] = css/josefinsans.css
+stylesheets[all][] = css/swipebox.css
+
+;;;;;;;;;;;;;;;;;;;;;
+;; Scripts
+;;;;;;;;;;;;;;;;;;;;;
+
+scripts[] = js/modernizr-2.6.2.min.js
+scripts[] = js/jquery-2.2.3.min.js
+;scripts[] = js/jquery.zoomslider.min.js
+scripts[] = js/owl.carousel.js
+scripts[] = js/move-top.js
+scripts[] = js/easing.js
+scripts[] = js/numscroller-1.0.js
+scripts[] = js/SmoothScroll.min.js
+scripts[] = js/custom.js
