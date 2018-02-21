@@ -7,7 +7,13 @@
 					<div class="item w3_agileits_testimonials_grid">
 						<div class="about-poleft t2">
 							<div class="about_img">
-								<img src="<?php print $row['uri']; ?>" alt=" " class="img-responsive" />
+								<img src="<?php
+								$image_uri      = $row['uri'];
+								$style          = '348_348';
+								$derivative_uri = image_style_path($style, $image_uri);
+								$success        = file_exists($derivative_uri) || image_style_create_derivative(image_style_load($style), $image_uri, $derivative_uri);
+								print $new_image_url  = file_create_url($derivative_uri);
+								?>" alt=" " class="img-responsive" />
 								<h5><?php print $row['title']; ?></h5>
 								<div class="about_opa">
 									<p>Senior Lecturers</p>

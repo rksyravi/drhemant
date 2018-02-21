@@ -1,0 +1,115 @@
+<?php
+
+function students_results_init() {
+  drupal_add_css(drupal_get_path('module', 'students_results') . '/custom/pdfgenerate.css');
+
+}
+
+function students_results_menu() {
+  $items['students-result'] = array(
+    'type' => MENU_CALLBACK,
+    'title'=>'Results',
+    'page callback' => 'students_view',
+    'access callback' => TRUE,
+    'access arguments' => array('access administration pages'),
+
+  );
+
+  return $items;
+}
+
+function students_view(){
+  global $user;
+  global $base_url;
+  //print '<pre>';
+  //print_r($user);
+  $role_assign = array('administrator', 'students', 'parents');
+
+  $role_find = !empty(array_intersect($role_assign, $user->roles));
+
+  if(user_is_logged_in() && !empty(array_intersect($role_assign, $user->roles))) {
+
+    if(in_array('students', $user->roles)) {
+      $profile = profile2_load_by_user($user->uid);
+      $enroll = $profile['main']->field_enroll_number['und'][0]['value'];
+
+    }else if(in_array('parents', $user->roles)){
+
+      $profile_parent = profile2_load_by_user($user->uid);
+      $enroll = $profile_parent['main']->field_enroll_number['und'][0]['value'];
+      $enroll = explode(',',$enroll);
+
+      $profile = profile2_load_by_user($result);
+      $name = ucwords($profile['main']->field_name['und'][0]['value']);
+      $fname = ucwords($profile['main']->field_father_s_name['und'][0]['value']);
+      $mname = ucwords($profile['main']->field_mother_s_name['und'][0]['value']);
+    }
+
+
+    $sidarr = array();
+    $query = db_select('webform_submitted_data', 'w')
+      ->fields('w')
+      ->condition('nid', 16)
+      ->condition('cid', 1)
+
+      ->execute()
+      ->fetchAll();
+
+    foreach($query as $query) {
+      $sidarr[] = $query->sid;
+    }
+
+
+
+    print_r($sidarr);die;
+
+    $options = array();
+    foreach($query as $query) {
+      $i=1;
+      while($i <= 12) {
+        $query_view = db_select('webform_submitted_data', 'w')
+          ->fields('w')
+          ->condition('sid', $query->sid)
+          ->condition('cid', $i)
+          ->execute()
+          ->fetchAssoc();
+
+        if($i == 11){
+          $year = date('Y', strtotime($query_view['data']));
+        }
+        if($i == 2){
+          $class = ucwords(str_replace('_', ' ', $query_view['data']));
+        }
+        if($i == 12){
+          $term = ucwords(str_replace('_', ' ', $query_view['data']));
+        }
+        if($i == 1){
+          $action = '<a href="'.$base_url.'/students-result/'.$query_view['sid'].'/'.$query_view['data'].'">View Result</a>';
+        }
+
+        $i++;
+      }
+      $options[] = array($year, $class, $term, $action);
+
+    }
+die;
+
+
+
+
+
+    $header = array('Year', 'Class', 'Term', 'Actions');
+
+    return theme('table', array(
+      'header' => $header,
+      'rows' => $options,
+      'attributes' => array('class' => array('table-responsive'))
+    ));
+
+  } else {
+    return drupal_access_denied();
+  }
+
+}
+
+

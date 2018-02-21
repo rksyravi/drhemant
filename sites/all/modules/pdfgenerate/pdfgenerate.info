@@ -1,0 +1,6 @@
+name = PDF Results Generate
+description = Used to generate pdf of results.
+core = 7.x
+package = custom
+dependencies[] = views:views
+files[] = pdfgenerate.module

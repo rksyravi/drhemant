@@ -1,0 +1,41 @@
+<?php
+
+function pdfgenerate_menu() {
+    $items['resultpdf/%'] = array(
+        'type' => MENU_CALLBACK,
+        'title'=>'Results',
+        'page callback' => 'menu_callback_function',
+        'access arguments' => array(array('administrator', 'students', 'parents','teachers','principal')),
+        'access callback' => array('custom_permission_access'),
+    );
+    return $items;
+}
+
+function menu_callback_function(){
+    return theme('drhemant');
+}
+
+function pdfgenerate_theme() {
+    drupal_add_css(drupal_get_path('module', 'pdfgenerate') . '/custom/pdfgenerate.css');
+    //drupal_add_js(drupal_get_path('module', 'pdfgenerate') . '/dist/jspdf.min.js');
+    return array(
+        'drhemant' => array(
+            'render element' => 'elements',
+            'template' => 'templates/resultpdf',
+        ),
+    );
+}
+
+function custom_permission_access($roles){
+    if (user_is_logged_in()) {
+        global $user;  
+        foreach ($roles as $role) {
+            if (in_array($role, $user->roles)) {
+                return TRUE;
+            }
+        }
+    }
+    else {
+        return FALSE;
+    }
+}
